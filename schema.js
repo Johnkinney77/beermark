@@ -21,9 +21,9 @@ client.query("DROP TABLE IF EXISTS venueBeerJoin");
 //main tables
 client.query("CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, firstname varchar(64), lastname varchar(64), dob date, email varchar(64), password_digest varchar(64), role_id integer);");
 
-client.query("CREATE TABLE IF NOT EXISTS breweries (id SERIAL PRIMARY KEY, name varchar(128), logo text);");
+client.query("CREATE TABLE IF NOT EXISTS breweries (id SERIAL PRIMARY KEY, name varchar(128), logo text, user_id integer);");
 
-client.query("CREATE TABLE IF NOT EXISTS venues (id SERIAL PRIMARY KEY, name varchar(64), address varchar(128), phone_number varchar(64), email varchar(64), website varchar(128), cover_photo text, description text, lat integer, lon integer);");
+client.query("CREATE TABLE IF NOT EXISTS venues (id SERIAL PRIMARY KEY, user_id varchar, name varchar(64), address varchar(128), phone_number varchar(64), email varchar(64), website varchar(128), cover_photo text, description text, lat integer, lon integer);");
 
 client.query("CREATE TABLE IF NOT EXISTS beers (id SERIAL PRIMARY KEY, brewery_id integer, name varchar(128), abv integer, style varchar(128), season varchar(64), ebc integer, ibu integer, aged varchar(64), description text, yeast varchar(64));");
 
@@ -37,9 +37,9 @@ client.query("INSERT INTO users (firstname, lastname, dob, email, password_diges
 client.query("INSERT INTO users (firstname, lastname, dob, email, password_digest, role_id) values ('Frank', 'Kinney', '1989-07-11', 'frankkinney77@gmail.com', '" + bcrypt.hashSync('password', 10) + "', 3);");
 
 
-client.query("INSERT INTO breweries (name, logo) values ('21st Amendment', 'http://brewbound-images.s3.amazonaws.com/wp-content/uploads/2013/04/21A-logo.jpg');");
+client.query("INSERT INTO breweries (name, logo, user_id) values ('21st Amendment', 'http://brewbound-images.s3.amazonaws.com/wp-content/uploads/2013/04/21A-logo.jpg', 3);");
 
-client.query("INSERT INTO venues (name, address, phone_number, email, website, cover_photo, description, lat, lon) values ('Union Pool', '484 Union Ave, Brooklyn, NY 11211', '(718) 609-0484', 'info@union-pool.com', 'http://www.union-pool.com/', 'http://cdn.vfolder.net/original/EObIX7wo6PI/front-bar-from-dj-booth-2.jpg', 'Now that we know who you are, I know who I am. Im not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villains going to be? Hes the exact opposite of the hero. And most times theyre friends, like you and me! I shouldve known way back when... You know why, David? Because of the kids. They called me Mr Glass.', 40.714964, -73.9515554);");
+client.query("INSERT INTO venues (user_id, name, address, phone_number, email, website, cover_photo, description, lat, lon) values (2, 'Union Pool', '484 Union Ave, Brooklyn, NY 11211', '(718) 609-0484', 'info@union-pool.com', 'http://www.union-pool.com/', 'http://cdn.vfolder.net/original/EObIX7wo6PI/front-bar-from-dj-booth-2.jpg', 'Now that we know who you are, I know who I am. Im not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villains going to be? Hes the exact opposite of the hero. And most times theyre friends, like you and me! I shouldve known way back when... You know why, David? Because of the kids. They called me Mr Glass.', 40.714964, -73.9515554);");
 
 client.query("INSERT INTO beers (brewery_id, name, abv, style, season, ebc, ibu, aged, description, yeast) values (1, 'Hell Or High Watermellon', 6, 'Pale Ale', 'Summer', 10, 10, null, 'Now that we know who you are, I know who I am. Im not a mistake! It all makes sense! In a comic, you know how you can tell who the arch-villains going to be? Hes the exact opposite of the hero. And most times theyre friends, like you and me! I shouldve known way back when... You know why, David? Because of the kids. They called me Mr Glass.', 'SO-4');");
 

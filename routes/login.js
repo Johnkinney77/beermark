@@ -10,7 +10,13 @@ router.get('/', loginControllers.index)
 
 router.post('/login', loginControllers.login);
 
-router.get('/signup', loginControllers.signup);
+router.get('/signup/user', loginControllers.signupUser);
+
+router.get('/signup/venue', loginControllers.signupVenue);
+
+router.get('/signup/brewery', loginControllers.signupBrewery);
+
+router.post('/signup/user', loginControllers.newUser);
 
 router.post('/signup', loginControllers.newUser);
 

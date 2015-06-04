@@ -1,1 +1,3 @@
-// beermark = beermark || { Models: {}, Collection: {} };
+beermark.Models.Venue = Backbone.Model.extend({
+  urlRoot: '/venue'
+});

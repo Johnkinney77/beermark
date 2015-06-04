@@ -4,7 +4,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 
 gulp.task('process-scripts', function () {
-  return gulp.src(['./app/assets/javascript/backbone_marionette/initialize/*.js', './app/assets/javascript/backbone_marionette/models/*.js', './app/assets/javascript/backbone_marionette/collections/*.js', './app/assets/javascript/backbone_marionette/views/*.js'])
+  return gulp.src(['./app/assets/javascript/backbone_marionette/initialize/*.js', './app/assets/javascript/backbone_marionette/models/*.js', './app/assets/javascript/backbone_marionette/collections/*.js', './app/assets/javascript/backbone_marionette/views/*.js', './app/assets/javascript/backbone_marionette/router/*.js'])
   .pipe(concat('main.js'))
 
   .pipe(gulp.dest('./public/js'))
@@ -14,7 +14,7 @@ gulp.task('process-scripts', function () {
 })
 
 gulp.task('watch', function () {
-  gulp.watch(['./app/assets/javascript/backbone_marionette/initialize/*.js', './app/assets/javascript/backbone_marionette/models/*.js', './app/assets/javascript/backbone_marionette/collections/*.js', './app/assets/javascript/backbone_marionette/views/*.js'], ['process-scripts'])
+  gulp.watch(['./app/assets/javascript/backbone_marionette/initialize/*.js', './app/assets/javascript/backbone_marionette/models/*.js', './app/assets/javascript/backbone_marionette/collections/*.js', './app/assets/javascript/backbone_marionette/views/*.js', './app/assets/javascript/backbone_marionette/router/*.js'], ['process-scripts'])
 })
 
 gulp.task('default', function () {
