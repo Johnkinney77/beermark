@@ -1,0 +1,29 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#video-container {
+  width: 100%;
+  overflow: hidden;
+}
+
+#login-form {
+  display: block;
+  position: absolute;
+  top: 35%;
+  width: 200px;
+  margin: 0 auto;
+  right: 0;
+  left: 0;
+}
+
+#login-form input, #login-form button {
+  width: 180px;
+  padding: 10px;
+  margin: 5px 0;
+  border: none;
+}
+#login-form button {
+  width: 200px;
+}

@@ -1,0 +1,1 @@
+// beermark = beermark || { Models: {}, Collection: {} };

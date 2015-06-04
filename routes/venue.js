@@ -3,10 +3,7 @@ var router = express.Router()
 
 
 router.get('/', function (req, res) {
-  res.send('User Home Page');
-});
-router.get('/search', function (req, res) {
-  res.send('Search');
+  res.send('Venue');
 });
 
     // var breweries = require('./breweries.js');
