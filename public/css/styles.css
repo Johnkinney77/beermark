@@ -8,7 +8,15 @@
   width: 100%;
   height: vh;
   overflow: hidden;
-  background-color: rgb(255, 172, 0);
+  background: #ffa84c; /* Old browsers */
+  background: -moz-linear-gradient(top,  #ffa84c 0%, #ff7b0d 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #ffa84c 0%,#ff7b0d 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa84c', endColorstr='#ff7b0d',GradientType=0 ); /* IE6-9 */
+
 }
 
 video {
@@ -65,4 +73,25 @@ video {
 #signup-dropdown a:hover {
   background-color: orange;
   color: black;
+}
+
+#navigation {
+  width: 100%;
+  background-color: orange;
+}
+
+#navigation nav {
+  padding: 20px;
+}
+
+#navigation nav a{
+  padding: 10px;
+  margin: 5px;
+  text-decoration: none;
+  font-weight: bold; 
+}
+
+#navigation img{
+  width: 150px;
+  margin-top: -10px;
 }

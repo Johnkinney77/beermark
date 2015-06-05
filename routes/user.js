@@ -1,12 +1,19 @@
 var express = require('express');
 var router = express.Router()
 
-
-router.get('/', function (req, res) {
-  res.send('User Home Page');
+//psql access
+var psqlpassword = require('../psqlpassword.js');
+var pg = require('pg');
+var conString = "pg://" + psqlpassword + "@localhost/beermark_development";
+var client = new pg.Client(conString);
+client.connect(function(){
 });
-router.get('/search', function (req, res) {
-  res.send('Search');
+
+
+router.get('/:id', function (req, res) {
+  client.query("SELECT * FROM users WHERE id=" + req.params.id + ";", function (err, result){
+    res.send(result);
+  });
 });
 
     // var breweries = require('./breweries.js');

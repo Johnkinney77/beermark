@@ -17,7 +17,7 @@ client.connect(function(){
 
 //index for login with out cookie
 loginController.index = function(req, res) {
-  var role_id = req.cookies.cokkieName
+  var role_id = req.cookies.role_id
   if(role_id) {
     var html = fs.readFileSync('./app/assets/views/singlePage.html', 'utf8')
     res.send(html);
@@ -34,7 +34,7 @@ loginController.login = function(req, res) {
     if (user === undefined){
       res.send('your username aint right')
     } else if (bcrypt.compareSync(req.body.password, user.password_digest)) {
-      res.cookie('cokkieName', user.role_id, { maxAge: 900000});
+      res.cookie('role_id', user.role_id, { maxAge: 900000});
       res.cookie('user_id', user.id, { maxAge: 900000});
       //session creation
       // req.session.valid_user = true;
@@ -91,18 +91,18 @@ loginController.newUser = function(req, res) {
             console.log(result);
             switch(role_id){
               case "1":
-                res.cookie('cokkieName', '1', { maxAge: 900000});
+                res.cookie('role_id', '1', { maxAge: 900000});
                 res.cookie('user_id', result.rows[0].id, { maxAge: 900000})
                 res.redirect('/')              
               break;
               case "2":
-                res.cookie('cokkieName', '2', { maxAge: 900000});
+                res.cookie('role_id', '2', { maxAge: 900000});
                 res.cookie('user_id', result.rows[0].id, { maxAge: 900000})
                 client.query("INSERT INTO venues (user_id) values (" + result.rows[0].id + ");");
                 res.redirect('/')
               break;
               case "3":
-                res.cookie('cokkieName', '3', { maxAge: 900000});
+                res.cookie('role_id', '3', { maxAge: 900000});
                 res.cookie('user_id', result.rows[0].id, { maxAge: 900000})                
                 client.query("INSERT INTO breweries (user_id) values (" + result.rows[0].id + ");");
                 res.redirect('/')  

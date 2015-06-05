@@ -1,9 +1,16 @@
 var beermark = beermark || { Models: {}, Collection: {}, Views: {} };
+//setting role or user and user ID for easy access for backbone single page application
 var split = document.cookie.split('; ')
-
-//setting role or user and user ID for easy access
-beermark.role_id = split[0].replace("cokkieName=", "");
+beermark.role_id = split[0].replace("role_id=", "");
 beermark.user_id = split[1].replace("user_id=", "");
+
+
+Backbone.Marionette.Renderer.render = function(template, data){
+  return Mustache.render(template, data);
+}
+
+
+
 
 myApp = new Backbone.Marionette.Application();
 
@@ -19,23 +26,28 @@ beermark.Models.Brewery = Backbone.Model.extend({
   urlRoot: '/brewery'
 });
 beermark.Models.User = Backbone.Model.extend({
-  urlRoot: '/users'
+  urlRoot: '/user/' + beermark.user_id
 });
+
+
 beermark.Models.Venue = Backbone.Model.extend({
   urlRoot: '/venue'
 });
 
 
 
-var breweryNav = '<h1>welcome to brewery Nav</h1>'
+var breweryNav = '<div><nav><a href="/logout">logout</a></nav></div>'
 
-var breweryInfo = "<form method='POST' action='/brewery'><input name='name' placeholder='Name'/><input name='logo_url' placeholder='logo_url'/><button>Submit</button>"
+var breweryInfo = "<div><form method='POST' action='/brewery'><input name='name' placeholder='Name'/><input name='logo_url' placeholder='logo_url'/><button>Submit</button><form></div>"
 
 beermark.Views.BreweryNav = Backbone.Marionette.ItemView.extend({
   template: breweryNav
 });
 
 beermark.Views.BreweryInfo = Backbone.Marionette.ItemView.extend({
+  onBeforeRender: function(){
+    
+  },
   template: breweryInfo
 });
 
@@ -72,9 +84,9 @@ beermark.Views.BreweryInfo = Backbone.Marionette.ItemView.extend({
 //     newBeerRegion: "#new-beer",
 //     suggestedBeerRegion: "#suggested-beer",
 //   })
-var userNav = '<h1>welcome to User Nav</h1>'
+var userNav = '<div><nav><a href="/"><img src="./imgs/logo.svg"></a><a href="#/search">Find Beer!</a><a href="/user">Your Marks</a><a href="#/logout">Logout</a></nav></div>'
 
-var userInfo = "<form method='POST' action='/brewery'><input name='name' placeholder='Name'/><input name='logo_url' placeholder='logo_url'/><button>Submit</button>"
+var userInfo = "<div><form method='POST' action='/user/{{user_id}}'><input name='firstname' value='{{firstname}}'/><input name='lastname' value='{{lastname}}'/><input name='email' value='{{email}}'/><input name='logo_url' placeholder='logo_url'/><button>Submit</button></form></div>"
 
 beermark.Views.UserNav = Backbone.Marionette.ItemView.extend({
   template: userNav
@@ -101,7 +113,8 @@ beermark.Views.VenueInfo = Backbone.Marionette.ItemView.extend({
 var Router = Backbone.Router.extend({
 
     routes: {
-      '': 'index'
+      '': 'index',
+      'logout': 'logout'
     },
 
     index: function (){
@@ -111,25 +124,56 @@ var Router = Backbone.Router.extend({
         case "1":
         var nav = new beermark.Views.UserNav();
         myApp.navigationRegion.show(nav)
-        var info = new beermark.Views.UserInfo();
+        var info = new beermark.Views.UserInfo({
+            model: beermark.currentUser
+        });
+        console.log(beermark.currentUser.attributes.rows)
         myApp.mainRegion.show(info)
         break;
         case "2":
         var nav = new beermark.Views.VenueNav();
         myApp.navigationRegion.show(nav)
-        var info = new beermark.Views.VenueInfo();
+        var info = new beermark.Views.VenueInfo({
+            model: beermark.currentUser
+        });
         myApp.mainRegion.show(info)
         break;
         case "3":
         var nav = new beermark.Views.BreweryNav();
         myApp.navigationRegion.show(nav)
-        var info = new beermark.Views.BreweryInfo();
+        var info = new beermark.Views.BreweryInfo({
+            model: beermark.currentUser
+        });
         myApp.mainRegion.show(info)
         break;
       }
+    },
+
+    logout: function(){
+        document.cookie = 'user_id =; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        document.cookie = 'role_id =; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        window.location.replace("/");
     }
 });
   
   
-var myRouter = new Router();
-Backbone.history.start();
+
+var UserRouter = Backbone.Router.extend({
+
+
+});
+
+beermark.currentUser = new beermark.Models.User()
+beermark.currentUser.fetch()
+ 
+// $(function(){
+// $.ajax({
+//   url: '/user/' + beermark.user_id,
+//   type: "GET"
+// }).done(function (data){
+//   beermark.currentUser = data.rows[0]
+  var myRouter = new Router();
+  Backbone.history.start();
+// });
+// });
+ 
