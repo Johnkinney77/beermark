@@ -20,6 +20,7 @@ client.connect();
 
 //initiating middleware
 app.use(methodOverride('_method'))
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(morgan('dev'));
 app.use(cookieParser())
@@ -38,10 +39,11 @@ app.use(cookieParser())
 // }));
 
 //pulling routes
-app.use('/', require('./routes/login.js'));
+app.use('/venue', require('./routes/venue.js'));
 app.use('/user', require('./routes/user.js'));
 app.use('/brewery', require('./routes/brewery.js'));
-app.use('/venue', require('./routes/venue.js'));
+app.use('/beers', require('./routes/beers.js'));
+app.use('/', require('./routes/login.js'));
 
 
 //setting static folder

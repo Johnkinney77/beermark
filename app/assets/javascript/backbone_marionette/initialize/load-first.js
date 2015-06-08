@@ -1,4 +1,4 @@
-var beermark = beermark || { Models: {}, Collection: {}, Views: {} };
+var beermark = beermark || { Models: {}, Collections: {}, Views: {} };
 //setting role or user and user ID for easy access for backbone single page application
 var split = document.cookie.split('; ')
 beermark.role_id = split[0].replace("role_id=", "");

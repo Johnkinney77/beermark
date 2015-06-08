@@ -98,8 +98,10 @@ loginController.newUser = function(req, res) {
               case "2":
                 res.cookie('role_id', '2', { maxAge: 900000});
                 res.cookie('user_id', result.rows[0].id, { maxAge: 900000})
-                client.query("INSERT INTO venues (user_id) values (" + result.rows[0].id + ");");
-                res.redirect('/')
+                client.query("INSERT INTO venues (user_id) values (" + result.rows[0].id + ");", function (err, result) {
+                  console.log('hi' +result)
+                  res.redirect('/')
+                });
               break;
               case "3":
                 res.cookie('role_id', '3', { maxAge: 900000});

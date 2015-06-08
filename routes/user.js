@@ -1,5 +1,7 @@
 var express = require('express');
-var router = express.Router()
+var app = express();
+var router = express.Router();
+
 
 //psql access
 var psqlpassword = require('../psqlpassword.js');
@@ -12,11 +14,18 @@ client.connect(function(){
 
 router.get('/:id', function (req, res) {
   client.query("SELECT * FROM users WHERE id=" + req.params.id + ";", function (err, result){
-    res.send(result);
+    res.send(result.rows[0]);
   });
+});
+
+router.put('/:id', function (req, res) {
+  client.query("UPDATE users SET firstname='" + req.body.firstname + "', lastname='" + req.body.lastname + "', email='" + req.body.email + "' WHERE id=" + req.cookies.user_id + ";", function(err, data) {
+
+  });
+  res.end()
 });
 
     // var breweries = require('./breweries.js');
 
-    // init api route. all api routes will begin with /api
+// init api route. all api routes will begin with /api
 module.exports = router
