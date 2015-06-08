@@ -96,7 +96,11 @@ video {
   margin-top: -10px;
 }
 
-#main {
+#map {
   width: 100%;
   height: 500px;
+}
+
+img .searchResult {
+  width:300px;
 }

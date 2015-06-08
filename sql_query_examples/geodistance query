@@ -1,0 +1,20 @@
+-- SELECT * FROM (
+--   select id, name, pos,
+--           round((pos <@> point(40.7733339, -73.917562))::numeric, 3) as miles
+--      from venues
+--  order by pos <-> point(40.7733339, -73.917562) 
+--  ) as example WHERE example.miles < 10;
+
+-- SELECT * FROM venueBeerJoin WHERE beer_id = 1;
+
+
+-- SELECT venueBeerJoin.id, venues.name, venues.address, venues.phone_number, venues.email, venues.website, venues.cover_photo, venues.description, venues.pos FROM venueBeerJoin LEFT JOIN venues ON venues.id = venueBeerJoin.venue_id WHERE venueBeerJoin.beer_id=1;
+
+
+SELECT * FROM (
+  SELECT * FROM(
+    SELECT venueBeerJoin.id, venues.name, venues.address, venues.phone_number, venues.email, venues.website, venues.cover_photo, venues.description, venues.pos FROM venueBeerJoin LEFT JOIN venues ON venues.id = venueBeerJoin.venue_id WHERE venueBeerJoin.beer_id=1
+    ) as exampleFirst,
+          round((pos <@> point(40.7733339, -73.917562))::numeric, 3) as miles
+          order by pos <-> point(40.7733339, -73.917562) 
+ ) as exampleSecond WHERE exampleSecond.miles < 10;

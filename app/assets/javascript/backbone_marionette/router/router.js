@@ -1,5 +1,8 @@
+
+//backbone router for main navigation 
 var Router = Backbone.Router.extend({
 
+    //backbone routes
     routes: {
       '': 'index',
       'logout': 'logout',
@@ -9,16 +12,20 @@ var Router = Backbone.Router.extend({
       'search': 'search'
     },
 
+    //index switch case to determine what user is logged in
     index: function (){
 
       //switch case to determine what html to be served up to what type of user
       switch(beermark.role_id) {
+
+        //case for user 
         case "1":
         var nav = new beermark.Views.UserNav();
         myApp.navigationRegion.show(nav)
         break;
+
+        //case for venue
         case "2":
-        console.log('hi')
         var nav = new beermark.Views.VenueNav({
             model: beermark.venue
         });
@@ -28,6 +35,8 @@ var Router = Backbone.Router.extend({
         });
         myApp.mainRegion.show(info)
         break;
+
+        //case for brewery
         case "3":
         var nav = new beermark.Views.BreweryNav({
             model: beermark.brewery
@@ -38,6 +47,7 @@ var Router = Backbone.Router.extend({
         });
         myApp.mainRegion.show(info)
         break;
+
       }
     },
 
@@ -57,23 +67,33 @@ var Router = Backbone.Router.extend({
         var info = new beermark.Views.UserInfo({model: beermark.currentUser});
         myApp.mainRegion.show(info)
 
+        //this information can be turned into a marionette view
         info.on("save", function(){
+
+            //getting information from form
             var firstname = this.$el.find('input[data-input="firstname"]').val();
             var lastname = this.$el.find('input[data-input="lastname"]').val();
             var email = this.$el.find('input[data-input="email"]').val();
 
+            //setting model info
             this.model.set('firstname', firstname);
             this.model.set('lastname', lastname);
             this.model.set('email', email);
+
+            //saving model
             this.model.save();
         });
     },
 
     // breweries beers page
     breweryBeers: function (){
+
+        //creating nav
         var nav = new beermark.Views.BreweryNav({
             model: beermark.brewery
         });
+
+        //creating layout view with initiates the other things with in it
         myApp.navigationRegion.show(nav)
         var layout = new beermark.Views.BreweryBeerLayoutView();
         myApp.mainRegion.show(layout)
@@ -81,54 +101,46 @@ var Router = Backbone.Router.extend({
 
     //venue beers page
     venueBeers: function (){
+
+        //creating nav
         var nav = new beermark.Views.VenueNav({
             model: beermark.venue
         });
+
+        //creating layout view with initiates the other things with in it
         myApp.navigationRegion.show(nav)
         var layout = new beermark.Views.VenueBeerLayoutView();
         myApp.mainRegion.show(layout)
     },
-    search: function () {
-      var nav = new beermark.Views.VenueNav({
-            model: beermark.venue
-        });
-      myApp.navigationRegion.show(nav)
-      function initialize() {
-        geocoder = new google.maps.Geocoder();
-        var address = beermark.currentUser.default_address
-        geocoder.geocode( { 'address': '2410 28th street, Astoria NY, 11102'}, function (results, status) {
-            console.log(results)
-          if (status == google.maps.GeocoderStatus.OK) {
-            var myLatlng = new google.maps.LatLng(results[0].geometry.location.A, results[0].geometry.location.F);
-            var mapOptions = {
-              zoom: 15,
-              center: myLatlng
-            }
-            var map = new google.maps.Map(document.getElementById('main'), mapOptions);
 
-            var marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: 'Hello World!'
-            });
-          }
+    //search page
+    search: function () {
+
+        //creating nav
+        var nav = new beermark.Views.UserNav({
+            model: beermark.currentUser
         });
-      }
-      initialize();
+
+        //creating layout view with initiates the other things with in it
+        myApp.navigationRegion.show(nav)
+        var search = new beermark.Views.UserSearchLayoutView()
+        myApp.mainRegion.show(search)
+
     }
 });
 
-// login servering up right information based on users Role
+// login servering up right information based on Users Role
 switch (beermark.role_id) {
+    
+    //setting models fetching all info for normal user
     case '1':
-
-    //fetching all info for normal user
     beermark.currentUser = new beermark.Models.User({id: beermark.user_id});
     promise = beermark.currentUser.fetch();
     break;
-    case '2':
 
-    //fetching information for venue
+
+    //setting models fetching information for venue
+    case '2':
     beermark.currentUser = new beermark.Models.User({id: beermark.user_id});
     beermark.currentUser.fetch();
     beermark.venue = new beermark.Models.Venue({id:beermark.user_id});
@@ -137,9 +149,9 @@ switch (beermark.role_id) {
         document.cookie = 'venue_id=' + beermark.venue.id;
     });
     break;
+    
+    //setting models fetching information for brewery
     case '3':
-
-    //fethcing information for brewery
     beermark.currentUser = new beermark.Models.User({id: beermark.user_id});
     beermark.currentUser.fetch();
     beermark.brewery = new beermark.Models.Brewery({id: beermark.user_id});
@@ -153,20 +165,22 @@ switch (beermark.role_id) {
 }
 
 promise.done(function(){
-    //needed to make if else statement for venue, couldn't do another fetch with in a promise, had to separate them. Don't know if this until I get it on a server.
+    //needed to make if else statement for venue, couldn't do another fetch with in a promise, had to separate them.
     // 'if' for venues
     if(beermark.venue){
+
+        //fetches venues beer information on success logs in
         beermark.venueBeers = new beermark.Collections.bVenueBeers();
-        beermark.venueBeers.fetch({
-            success: function (model, response){
-                console.log(model)
-                console.log(response)
-            }
-        })
-            var myRouter = new Router();
-            Backbone.history.start();
+        beermark.venueBeers.fetch()
+
+        //starts router
+        var myRouter = new Router();
+        Backbone.history.start();
+
     // else for everything else
     } else {
+        
+        //starts router
         var myRouter = new Router();
         Backbone.history.start();
     }
