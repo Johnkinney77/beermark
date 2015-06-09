@@ -20,7 +20,7 @@ An application that allows users to search for beer with in our database. The da
 
 ##Schema
 ####User
-|id|first_name|last_name|dob|email|password_digest|default_address|role_id|
+| id | firstname | lastname | dob |email|password digest|default address|role_id|
 |--|----------|---------|---|-----|---------------|---------------|-------|
 | 1 | John | Kidney | 1988-11-24 | exmaple@gmail.com | passwprd | 7 Whatever Lane, FakeTown NY, 1189 | 2 |
 
